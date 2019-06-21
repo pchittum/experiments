@@ -1,8 +1,0 @@
-List<sobject> objs = new List<sobject>();
-
-for (Integer i = 0; i < 10; i++){
-    objs.add(new Account(Name='acct' + i));
-    objs.add(new Contact(LastName='Contact' + i));
-}
-
-insert objs; 
