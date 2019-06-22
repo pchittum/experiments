@@ -87,4 +87,16 @@ Above you can see how a contact and an account are created. In the account recor
 
 > Note: I was not able to make this work without use of the external Id, for instance assigning `acct` to the `cont.Account` field. 
 
-However this falls down when we attempt to store parent/child records of the same type. For instance, the `ParentId` field in account. 
+However this falls down when we attempt to store parent/child records of the same type. For instance, the `ParentId` field in account. We can't attempt to create hierarchical account relationships if those existed in the accounts in an input array. 
+
+    Account acctParent = new Account(Name='Chunked Account',Customer_Id__c='chunked1');
+    Account acctChild = new Account(Name='Child Chunked',Parent=new Account());
+    Contact cont = new Contact(LastName='Chunked Contact',Account=new Account());
+
+    acctChild.Parent.Customer_Id__c = acctParent.Customer_Id__c;
+    cont.Account.Customer_Id__c = acctParent.Customer_Id__c;
+
+    List<SObject> objs = new List<SObject>{acctParent,cont,acctChild};
+
+    insert objs; 
+
